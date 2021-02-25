@@ -1,0 +1,9 @@
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/
+**/node_modules
+**/.env
+**/database/migrations/**/*.ts

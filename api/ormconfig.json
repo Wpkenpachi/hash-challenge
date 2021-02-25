@@ -1,0 +1,20 @@
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5433,
+    "username": "hashusername",
+    "password": "hashpass",
+    "database": "hash_challenge",
+    "synchronize": true,
+    "entities": [
+        "./src/models/**/*.ts"
+    ],
+    "migrations": [
+        "./database/migration/**/*.ts"
+    ],
+    "seeds": ["./database/seeds/**/*{.ts,.js}"],
+    "cli": {
+        "entitiesDir": "./src/models",
+        "migrationsDir": "./database/migrations"
+    }
+}

@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_service
+    environment:
+      POSTGRES_PASSWORD: hashpass
+      POSTGRES_USER: hashusername
+      POSTGRES_DB: hash_challenge
+    ports:
+      - 5433:5432
+    networks:
+      - postgres-compose-network
+
+  server:
+    depends_on:
+      - db
+    build:
+      context: api/
+      dockerfile: Dockerfile
+    container_name: node_client
+    ports:
+      - 8080:8080
+    entrypoint: npm start
+    networks:
+      - postgres-compose-network
+
+  pgadmin:
+    depends_on:
+      - db
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin"
+      PGADMIN_DEFAULT_PASSWORD: "123"
+    ports:
+      - "8282:80"
+    networks:
+      - postgres-compose-network
+
+networks:
+  postgres-compose-network:
+    driver: bridge
