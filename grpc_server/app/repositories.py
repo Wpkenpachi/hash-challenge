@@ -1,7 +1,6 @@
-from .database import connection
 from .models import BaseModel
 
-# Model
+# Models
 from .models import User, Product, Discount
 
 class UserRepository(User):

@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from app.repositories import UserRepository
 from app.services import DiscountService
 

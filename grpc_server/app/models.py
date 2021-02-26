@@ -8,7 +8,7 @@ class BaseModel():
     result  = []
  
     def __init__(self, my_dict = None):
-        self.conn = connection
+        self.conn = connection()
         self.cursor = self.conn.cursor(cursor_factory = psycopg2.extras.DictCursor)
         if my_dict:
             for key in my_dict:

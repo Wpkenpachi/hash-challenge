@@ -1,7 +1,7 @@
 {
     "type": "postgres",
     "host": "db",
-    "port": 5431,
+    "port": 5432,
     "username": "hashusername",
     "password": "hashpass",
     "database": "hash_challenge",
@@ -14,7 +14,7 @@
     ],
     "seeds": ["./database/seeds/**/*{.ts,.js}"],
     "cli": {
-        "entitiesDir": "./src/models/**/*.ts",
-        "migrationsDir": "./database/migrations/**/*.ts"
+        "entitiesDir": "./src/models",
+        "migrationsDir": "./database/migrations"
     }
 }

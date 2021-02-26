@@ -10,7 +10,12 @@ RUN npm install
 COPY . .
 COPY ormconfig.prod.json ./ormconfig.json
 
-RUN chmod +x run.sh
+RUN chmod +x seeding.sh
+RUN yarn run grpc_tools_node_protoc \
+    --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts \
+    --ts_out=./src/proto \
+    -I ./src/proto \
+    ./src/proto/*.proto
 
 EXPOSE 8080
 CMD [ "npm", "start" ]
