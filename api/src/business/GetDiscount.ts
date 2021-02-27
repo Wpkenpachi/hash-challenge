@@ -3,7 +3,7 @@ import { Product } from "../models/Product";
 import { grpcGetDiscount } from "../services/GrpcClient";
 import { GetProductReseponse } from "../request/interfaces/Product";
 
-const products_response = (_products: Product[]) => {
+const products_response = (_products: Product[]): GetProductReseponse[] => {
     return _products.map( product => {
         return {
             ...product,
@@ -31,8 +31,8 @@ export async function getProductsWithDiscount(user_id: number): Promise<GetProdu
             const length: number = products.length - 1;
             if (counter > length) return;
             try {
-                const discount = await grpcGetDiscount(product.id, metadata.id);
-                const _product = {...product, discount};
+                const discount: any = await grpcGetDiscount(product.id, metadata.id);
+                const _product = {...product, discount: {percentage: discount.percentage, value_in_cents: discount.valueInCents}};
                 results.push(_product);
                 counter += 1;
                 await loop(products[counter], metadata);

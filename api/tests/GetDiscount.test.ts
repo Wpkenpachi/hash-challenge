@@ -58,13 +58,13 @@ describe('Testing Product', () => {
         await databaseSetup();
     });
     afterAll(async () => {
-        // await clearDatabase();
+        await clearDatabase();
     });
 
     /**
      * Happy Path
      */
-    test('Should return All Products without discount {Status 200, ProductResponse Payload Interface}', async () => {
+    test('Should Return Products Without Discount {Res: StatusCode, ProductResponseInterface}', async () => {
         const response = await request.get("/api/product");
         const { body: products, status } = response;
         expect(status).toBe(200);
@@ -83,7 +83,7 @@ describe('Testing Product', () => {
     /**
      * Positive Response with Optional Parameters
      */
-    test('Should return All Products with discount {Status 200, Send Valid Header, Existing User}', async () => {
+    test('Should Return Products With Birthday Discount {Req: Birthday User | Res: StatusCode, ProductResponseInterface}', async () => {
         const birthdayUser: User = await User.findOne({ first_name: "MOCKED_BIRTHDAY_USER" });
         const birthdayDiscount: Discount = await Discount.findOne({ title: "IS_BIRTHDAY_USER" });
         const response = await request.get("/api/product").set({"X-USER-ID": Number(birthdayUser.id)});
@@ -96,6 +96,24 @@ describe('Testing Product', () => {
                 expect(product).toHaveProperty('description');
                 expect(product).toHaveProperty('discount');
                 expect(product.discount.percentage).toBe(birthdayDiscount.metadata.percentage);
+                expect(product.discount.value_in_cents).toBeGreaterThan(0);
+            });
+        }
+    });
+
+    test('Should Return Products Without Discount {Req: Normal User Id | Res: StatusCode, ProductResponseInterface}', async () => {
+        const birthdayUser: User = await User.findOne({ first_name: "NORMAL_USER_1" });
+        const response = await request.get("/api/product").set({"X-USER-ID": Number(birthdayUser.id)});
+        const { body: products, status } = response;
+        expect(status).toBe(200);
+        expect(products.length).toBeGreaterThan(0);
+        if (products.length) {
+            products.forEach((product: any) => {
+                expect(product).toHaveProperty('id');
+                expect(product).toHaveProperty('description');
+                expect(product).toHaveProperty('discount');
+                expect(product.discount.percentage).toBe(0);
+                expect(product.discount.value_in_cents).toBe(0);
             });
         }
     });
@@ -103,7 +121,7 @@ describe('Testing Product', () => {
     /**
      * Negative Response with Valid Optional Parameters
      */
-    test('Should return All Products without discount {Status 200, Send Valid Header, Nonexistent User}', async () => {
+    test('Should Return Products Without Discount {Req: NonExistent Id User | Res: StatusCode, ProductResponseInterface}', async () => {
         const getMaxUserId = async (param: any = null): Promise<any> => {
             const result = await createQueryBuilder("User").select("MAX(User.id)", "max").getRawOne();
             return result.max;
@@ -130,7 +148,7 @@ describe('Testing Product', () => {
     /**
      * Negative Response with Invalid Optional Parameters
      */
-    test('Should return Error {Status 400, Send Invalid Header}', async () => {
+    test('Should Return Error {Req: Invalid Header Input | Res: StatusCode, ErrorBodyResponse}', async () => {
         const response = await request.get("/api/product").set("X-USER-ID", "S");
         const { body, status } = response;
         expect(status).toBe(400);
