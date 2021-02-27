@@ -7,15 +7,15 @@ class BaseModel():
     table   = None
     result  = []
  
-    def __init__(self, my_dict = None):
+    def __init__(self, model_shape = None):
         self.conn = connection()
         self.cursor = self.conn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-        if my_dict:
-            for key in my_dict:
-                setattr(self, key, my_dict[key])
+        if model_shape:
+            for attribute in model_shape:
+                setattr(self, attribute, model_shape[attribute])
     
     def getAll(self):
-        query = f"SELECT * FROM public.{self.table} ORDER BY id ASC"
+        query = f'SELECT * FROM public."{self.table}" ORDER BY id ASC'
         self.cursor.execute(query)
         response = self.cursor.fetchall()
         if len(response):
@@ -25,10 +25,10 @@ class BaseModel():
         return self.fetch()
 
     def first(self, user_id: int):
-        query = f"SELECT * FROM public.{self.table} WHERE id = {user_id} ORDER BY id ASC"
-        self.cursor.execute(query)
+        query = f'SELECT * FROM public."{self.table}" WHERE id = %s'
+        self.cursor.execute(query, (user_id,))
         response = self.cursor.fetchone()
-        if len(response):
+        if response:
             self.result = response
         return self.fetch(True)
 
@@ -49,8 +49,8 @@ class User(BaseModel):
     last_name = None
     date_of_birth = None
 
-    def __init__(self, my_dict = None):
-        super().__init__(my_dict)
+    def __init__(self, model_shape = None):
+        super().__init__(model_shape)
         self.table = "user"
 
 class Product(BaseModel):
@@ -59,8 +59,8 @@ class Product(BaseModel):
     title = None
     description = None
 
-    def __init__(self, my_dict = None):
-        super().__init__(my_dict)
+    def __init__(self, model_shape = None):
+        super().__init__(model_shape)
         self.table = "product"
 
 class Discount(BaseModel):
@@ -68,6 +68,6 @@ class Discount(BaseModel):
     title = None
     metadata = None
 
-    def __init__(self, my_dict = None):
-        super().__init__(my_dict)
+    def __init__(self, model_shape = None):
+        super().__init__(model_shape)
         self.table = "discount"

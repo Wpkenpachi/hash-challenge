@@ -1,9 +1,10 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm/connection/Connection';
 import { Discount } from "../../src/models/Discount";
+import dotenv from "dotenv";
+dotenv.config();
 
-
-const BLACK_FRIDAY_DATE = "11-25";
+const { BLACK_FRIDAY_DATE } = process.env;
 
 export class CreateUsers implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<any> {
@@ -13,17 +14,22 @@ export class CreateUsers implements Seeder {
         .from(Discount)
         .execute();
 
+        const splitted_date = BLACK_FRIDAY_DATE.split('-')
+
         const discounts = [
             {
-                title: "BLACK_FRIDAY",
+                title: "IS_BLACK_FRIDAY",
                 metadata: {
-                    day: Number(BLACK_FRIDAY_DATE[0]),
-                    month: BLACK_FRIDAY_DATE[1]
+                    percentage: 5,
+                    day: Number(splitted_date[0]),
+                    month: Number(splitted_date[1])
                 }
             },
             {
-                title: "BIRTHDAY_USER",
-                metadata: {}
+                title: "IS_BIRTHDAY_USER",
+                metadata: {
+                    percentage: 10
+                }
             }
         ];
 

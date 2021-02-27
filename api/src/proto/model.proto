@@ -1,16 +1,16 @@
 syntax = "proto3";
 
 service IndividualProductDiscount {
-  rpc GetDiscount (GetDiscountRequest) returns (GetDiscountResponse) {}
+  rpc FetchDiscount (GetDiscountRequest) returns (GetDiscountResponse) {};
 }
 
 message GetDiscountRequest {
-    string product_id = 1;
-    string user_id = 2;
+  int64 product_id = 1;
+  int64 user_id = 2;
 }
 
 message GetDiscountResponse {
-    float percentage = 1;
-    int64 value_in_cents = 2;
+  float percentage = 1;
+  int64 value_in_cents = 2;
 }
 

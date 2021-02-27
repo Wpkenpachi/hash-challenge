@@ -2,7 +2,7 @@ import "reflect-metadata";
 import dotenv from "dotenv";
 dotenv.config();
 
-import "../database/Connection";
+import "./db/Connection";
 
 import express from "express";
 import bodyParser from "body-parser";

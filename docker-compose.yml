@@ -12,6 +12,8 @@ services:
       - database_network
     expose:
       - 5432
+    ports:
+      - 5431:5432
 
   api:
     depends_on:
@@ -23,7 +25,7 @@ services:
     ports:
       - 8080:8080
     tty: true
-    entrypoint: npm start
+    # entrypoint: npm start
     networks:
       - database_network
 
@@ -34,6 +36,8 @@ services:
       context: grpc_server/
       dockerfile: Dockerfile
     container_name: python_server
+    expose:
+      - 50051
     ports:
       - 50051:50051
     tty: true

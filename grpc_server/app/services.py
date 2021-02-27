@@ -10,7 +10,7 @@ load_dotenv()
 
 class DiscountService():
     @staticmethod
-    def getDiscount(user_id: int, product_id: int):
+    def getDiscount(product_id: int, user_id: int):
         user    = UserRepository().first(user_id)
         product = ProductRepository().first(product_id)
 

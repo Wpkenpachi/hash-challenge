@@ -2,8 +2,10 @@ import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm/connection/Connection';
 import { User } from "../../src/models/User";
 import moment from "moment";
+import dotenv from "dotenv";
+dotenv.config();
 
-const BLACK_FRIDAY_DATE = "11-25";
+const { BLACK_FRIDAY_DATE } = process.env;
 
 export class CreateUsers implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<any> {
@@ -13,7 +15,8 @@ export class CreateUsers implements Seeder {
         .from(User)
         .execute();
 
-        const black_friday_date = [...BLACK_FRIDAY_DATE.split('-')];
+        const splitted_date = BLACK_FRIDAY_DATE.split('-')
+        
         const users = [
             {
                 first_name: "Birthday User",
@@ -33,7 +36,7 @@ export class CreateUsers implements Seeder {
             {
                 first_name: "Normal User",
                 last_name: "LAST_SEED_NAME",
-                date_of_birth: moment([ 1996, Number(black_friday_date[0])-1, Number(black_friday_date[1]) ]).format('YYYY-MM-DD')
+                date_of_birth: moment([ 1996, Number(splitted_date[0])-1, Number(splitted_date[1]) ]).format('YYYY-MM-DD')
             }
         ]
 

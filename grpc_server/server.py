@@ -11,9 +11,9 @@ from proto import model_pb2
 from proto import model_pb2_grpc
 
 class IndividualProductDiscountServicer(model_pb2_grpc.IndividualProductDiscountServicer):
-    def GetDiscount(self, request, context):
+    def FetchDiscount(self, request, context):
         response = model_pb2.GetDiscountResponse()
-        discount = DiscountService().getDiscount(request.product_id, request.user_id)
+        discount = DiscountService.getDiscount(request.product_id, request.user_id)
         response.percentage = float(discount['percentage'])
         response.value_in_cents = int(discount['value_in_cents'])
         return response
@@ -26,5 +26,4 @@ def main():
     server.start()
     server.wait_for_termination()
     
-
 main()

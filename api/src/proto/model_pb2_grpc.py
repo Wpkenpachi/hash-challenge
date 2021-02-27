@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from proto import model_pb2 as proto_dot_model__pb2
+from src.proto import model_pb2 as src_dot_proto_dot_model__pb2
 
 
 class IndividualProductDiscountStub(object):
@@ -14,17 +14,17 @@ class IndividualProductDiscountStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.FetchDiscount = channel.unary_unary(
-                '/IndividualProductDiscount/FetchDiscount',
-                request_serializer=proto_dot_model__pb2.GetDiscountRequest.SerializeToString,
-                response_deserializer=proto_dot_model__pb2.GetDiscountResponse.FromString,
+        self.GetDiscount = channel.unary_unary(
+                '/IndividualProductDiscount/GetDiscount',
+                request_serializer=src_dot_proto_dot_model__pb2.GetDiscountRequest.SerializeToString,
+                response_deserializer=src_dot_proto_dot_model__pb2.GetDiscountResponse.FromString,
                 )
 
 
 class IndividualProductDiscountServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def FetchDiscount(self, request, context):
+    def GetDiscount(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -33,10 +33,10 @@ class IndividualProductDiscountServicer(object):
 
 def add_IndividualProductDiscountServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'FetchDiscount': grpc.unary_unary_rpc_method_handler(
-                    servicer.FetchDiscount,
-                    request_deserializer=proto_dot_model__pb2.GetDiscountRequest.FromString,
-                    response_serializer=proto_dot_model__pb2.GetDiscountResponse.SerializeToString,
+            'GetDiscount': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetDiscount,
+                    request_deserializer=src_dot_proto_dot_model__pb2.GetDiscountRequest.FromString,
+                    response_serializer=src_dot_proto_dot_model__pb2.GetDiscountResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -49,7 +49,7 @@ class IndividualProductDiscount(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def FetchDiscount(request,
+    def GetDiscount(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,8 +59,8 @@ class IndividualProductDiscount(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/IndividualProductDiscount/FetchDiscount',
-            proto_dot_model__pb2.GetDiscountRequest.SerializeToString,
-            proto_dot_model__pb2.GetDiscountResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/IndividualProductDiscount/GetDiscount',
+            src_dot_proto_dot_model__pb2.GetDiscountRequest.SerializeToString,
+            src_dot_proto_dot_model__pb2.GetDiscountResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
