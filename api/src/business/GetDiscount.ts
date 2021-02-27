@@ -17,9 +17,7 @@ const products_response = (_products: Product[]) => {
 
 export async function getProductsWithDiscount(user_id: number): Promise<GetProductReseponse[]> {
     const user = await User.findOne(user_id);
-    const products = await Product.find({});
-
-    
+    const products = await Product.find({});    
 
     if (!user) {
         return new Promise((resolve) => {
