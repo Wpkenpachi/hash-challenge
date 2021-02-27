@@ -11,12 +11,8 @@ import cors from "cors";
 // Routes
 import routes from "./routes";
 
-const api = express();
+export const api = express();
 api.use(bodyParser.json());
 api.use(cors());
 
-api.use("/api", routes)
-
-api.listen(process.env.PORT, () => {
-    console.log('Api running at', process.env.PORT);
-});
+api.use("/api", routes);

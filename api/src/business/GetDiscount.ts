@@ -9,7 +9,7 @@ const products_response = (_products: Product[]) => {
             ...product,
             discount: {
                 percentage: 0.0,
-                valueInCents: 0
+                value_in_cents: 0
             }
         }
     });

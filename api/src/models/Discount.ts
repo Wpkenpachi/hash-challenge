@@ -15,5 +15,7 @@ export class Discount extends BaseEntity {
         type: "simple-json",
         default: "{}"
     })
-    metadata!: {}
+    metadata!: {
+        percentage?: number
+    }
 }

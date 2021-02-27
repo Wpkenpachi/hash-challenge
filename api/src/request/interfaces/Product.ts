@@ -5,7 +5,7 @@ export class GetProductHeaderRequest {
     @IsOptional()
     @Expose()
     @IsInt()
-    "X-USER-ID": Number;
+    "x-user-id": Number;
 }
 
 export interface GetProductReseponse {
@@ -15,6 +15,6 @@ export interface GetProductReseponse {
     description: string;
     discount: {
         percentage: number,
-        valueInCents: number
+        value_in_cents: number
     }
 }
