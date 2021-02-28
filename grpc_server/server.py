@@ -1,3 +1,4 @@
+import os
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -19,11 +20,13 @@ class IndividualProductDiscountServicer(model_pb2_grpc.IndividualProductDiscount
         return response
 
 def main():
+    port = os.getenv('GRPC_SERVER_PORT')
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     model_pb2_grpc.add_IndividualProductDiscountServicer_to_server(IndividualProductDiscountServicer(), server)
-    print('Starting server. Listening on port 50051.')
-    server.add_insecure_port('[::]:50051')
+    print('Starting server. Listening on port 50052.')
+    server.add_insecure_port(f'[::]:{port}')
     server.start()
     server.wait_for_termination()
     
-main()
+if __name__ == "__main__":
+    main()

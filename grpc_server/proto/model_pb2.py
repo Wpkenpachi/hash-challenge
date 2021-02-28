@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x11proto/model.proto\"9\n\x12GetDiscountRequest\x12\x12\n\nproduct_id\x18\x01 \x01(\x03\x12\x0f\n\x07user_id\x18\x02 \x01(\x03\"A\n\x13GetDiscountResponse\x12\x12\n\npercentage\x18\x01 \x01(\x02\x12\x16\n\x0evalue_in_cents\x18\x02 \x01(\x03\x32Y\n\x19IndividualProductDiscount\x12<\n\rFetchDiscount\x12\x13.GetDiscountRequest\x1a\x14.GetDiscountResponse\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x11proto/model.proto\"9\n\x12GetDiscountRequest\x12\x12\n\nproduct_id\x18\x01 \x01(\x03\x12\x0f\n\x07user_id\x18\x02 \x01(\x03\"A\n\x13GetDiscountResponse\x12\x12\n\npercentage\x18\x01 \x01(\x02\x12\x16\n\x0evalue_in_cents\x18\x02 \x01(\x03\"+\n\x18GetDiscountErrorResponse\x12\x0f\n\x07message\x18\x02 \x01(\t2Y\n\x19IndividualProductDiscount\x12<\n\rFetchDiscount\x12\x13.GetDiscountRequest\x1a\x14.GetDiscountResponse\"\x00\x62\x06proto3'
 )
 
 
@@ -102,8 +102,41 @@ _GETDISCOUNTRESPONSE = _descriptor.Descriptor(
   serialized_end=145,
 )
 
+
+_GETDISCOUNTERRORRESPONSE = _descriptor.Descriptor(
+  name='GetDiscountErrorResponse',
+  full_name='GetDiscountErrorResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='message', full_name='GetDiscountErrorResponse.message', index=0,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=147,
+  serialized_end=190,
+)
+
 DESCRIPTOR.message_types_by_name['GetDiscountRequest'] = _GETDISCOUNTREQUEST
 DESCRIPTOR.message_types_by_name['GetDiscountResponse'] = _GETDISCOUNTRESPONSE
+DESCRIPTOR.message_types_by_name['GetDiscountErrorResponse'] = _GETDISCOUNTERRORRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GetDiscountRequest = _reflection.GeneratedProtocolMessageType('GetDiscountRequest', (_message.Message,), {
@@ -120,6 +153,13 @@ GetDiscountResponse = _reflection.GeneratedProtocolMessageType('GetDiscountRespo
   })
 _sym_db.RegisterMessage(GetDiscountResponse)
 
+GetDiscountErrorResponse = _reflection.GeneratedProtocolMessageType('GetDiscountErrorResponse', (_message.Message,), {
+  'DESCRIPTOR' : _GETDISCOUNTERRORRESPONSE,
+  '__module__' : 'proto.model_pb2'
+  # @@protoc_insertion_point(class_scope:GetDiscountErrorResponse)
+  })
+_sym_db.RegisterMessage(GetDiscountErrorResponse)
+
 
 
 _INDIVIDUALPRODUCTDISCOUNT = _descriptor.ServiceDescriptor(
@@ -129,8 +169,8 @@ _INDIVIDUALPRODUCTDISCOUNT = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=147,
-  serialized_end=236,
+  serialized_start=192,
+  serialized_end=281,
   methods=[
   _descriptor.MethodDescriptor(
     name='FetchDiscount',

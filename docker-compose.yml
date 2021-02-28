@@ -25,7 +25,6 @@ services:
     ports:
       - 8080:8080
     tty: true
-    # entrypoint: npm start
     networks:
       - database_network
 
