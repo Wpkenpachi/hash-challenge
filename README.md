@@ -1,7 +1,7 @@
 # Hash Challenge
 [Challenge Description](https://github.com/hashlab/hiring/blob/master/challenges/pt-br/back-challenge.md)
 
-## Giving permissions to running files
+## Giving permission to run file
     $ chmox +x run
 
 ## Runnig Up Docker-Compose
