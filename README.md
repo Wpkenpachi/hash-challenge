@@ -90,7 +90,8 @@ discount to be created needs one handler method with the same name as `title` fi
 </table>
 
 ## Database Access
-Connecting to database by pgadmin
+Connecting to database by pgadmin \
+<b>Url</b>: http://localhost:8282
 
 ### Creating server
 ![creating-server](pgadmin01.png)
