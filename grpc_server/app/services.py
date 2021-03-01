@@ -83,10 +83,8 @@ class CheckDiscountRuleService():
         user_birth_day = user['date_of_birth'].strftime('%m-%d')
         is_birthday_user = True if today == user_birth_day else False
         if is_birthday_user:
-            print("IS BIRTHDAY_OF_USER:", user['id'])
             return is_birthday_user
         else:
-            print(f"IS BIRTHDAY {today} <> {user_birth_day} OF USER {user['id']}")
             return is_birthday_user
 
     @staticmethod
@@ -99,8 +97,6 @@ class CheckDiscountRuleService():
         black_friday        = f"{black_friday_month}-{black_friday_day}"
         is_black_friday = True if today == black_friday else False
         if is_black_friday:
-            print("IS BLACK FRIDAY")
             return is_black_friday
         else:
-            print("DEBUG::BLACK_FRIDAY:", today, f"{black_friday_month}-{black_friday_day}", f"FOR USER {user['id']}")
             return is_black_friday
