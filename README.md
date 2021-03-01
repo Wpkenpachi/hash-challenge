@@ -32,6 +32,7 @@ discount to be created needs one handler method with the same name as `title` fi
 ![grpc-service-discount-methods](grpc-service-discount-methods.png)
 
 ## Endpoints
+<b>Base Url:</b> http://localhost:8080
 <table>
     <thead>
         <tr>
@@ -87,3 +88,15 @@ discount to be created needs one handler method with the same name as `title` fi
         </tr>
     </tbody>
 </table>
+
+## Database Access
+Connecting to database by pgadmin
+
+### Creating server
+![creating-server](pgadmin01.png)
+
+### Configuring server
+![creating-server](pgadmin02.png)
+<hr>
+
+![creating-server](pgadmin03.png)
