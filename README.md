@@ -96,7 +96,7 @@ Connecting to database by pgadmin \
 ### Creating server
 ![creating-server](pgadmin01.png)
 
-### Configuring server
+### Database Server Config
 ![creating-server](pgadmin02.png)
 <hr>
 
