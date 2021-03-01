@@ -3,25 +3,12 @@ import { Product } from "../models/Product";
 import { grpcGetDiscount } from "../services/GrpcClient";
 import { GetProductReseponse } from "../request/interfaces/Product";
 
-const products_response = (_products: Product[]): GetProductReseponse[] => {
-    return _products.map( product => {
-        return {
-            ...product,
-            discount: {
-                percentage: 0.0,
-                value_in_cents: 0
-            }
-        }
-    });
-}
-
-export async function getProductsWithDiscount(user_id: number): Promise<GetProductReseponse[]> {
-    const user = await User.findOne(user_id);
-    const products = await Product.find({});    
-
+export async function getProductsWithDiscount(user_id: number | undefined): Promise<GetProductReseponse[]|Product[]> {
+    const user = user_id ? await User.findOne(user_id) : null;
+    const products = await Product.find({});
     if (!user) {
         return new Promise((resolve) => {
-            resolve(products_response(products));
+            resolve(products);
         });
     }
     else {
@@ -32,13 +19,19 @@ export async function getProductsWithDiscount(user_id: number): Promise<GetProdu
             if (counter > length) return;
             try {
                 const discount: any = await grpcGetDiscount(product.id, metadata.id);
-                const _product = {...product, discount: {percentage: discount.percentage, value_in_cents: discount.valueInCents}};
-                results.push(_product);
+                if (discount && discount.percentage) {
+                    const _product = {...product, discount: {percentage: discount.percentage, value_in_cents: discount.valueInCents}};
+                    results.push(_product);
+                } else {
+                    results.push(product);
+                }
                 counter += 1;
                 await loop(products[counter], metadata);
             } catch (error) {
                 console.log(error);
-                results = products_response(products);
+                results.push(products[counter]);
+                counter += 1;
+                await loop(products[counter], metadata);
             }
         };
         await loop(products[counter], user);
@@ -48,7 +41,7 @@ export async function getProductsWithDiscount(user_id: number): Promise<GetProdu
     }
 }
 
-export async function getProductsWithoutDiscount(): Promise<GetProductReseponse[]> {
-    const products = await Product.find({});
-    return products_response(products);
-}
+// export async function getProductsWithoutDiscount(): Promise<GetProductReseponse[]> {
+//     const products = await Product.find({});
+//     return products_response(products);
+// }

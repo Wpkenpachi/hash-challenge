@@ -20,15 +20,15 @@ export class CreateUsers implements Seeder {
             {
                 title: "IS_BLACK_FRIDAY",
                 metadata: {
-                    percentage: 5,
-                    day: Number(splitted_date[0]),
-                    month: Number(splitted_date[1])
+                    percentage: 10,
+                    day: String(splitted_date[0]),
+                    month: String(splitted_date[1])
                 }
             },
             {
                 title: "IS_BIRTHDAY_USER",
                 metadata: {
-                    percentage: 10
+                    percentage: 5
                 }
             }
         ];

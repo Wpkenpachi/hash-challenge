@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 // Connect with database
-import {createConnection, Connection, getConnection, createQueryBuilder} from "typeorm";
+import {createConnection, Connection, getConnection, createQueryBuilder, DeepPartial} from "typeorm";
 import { Discount } from "../src/models/Discount";
 import { User } from "../src/models/User";
 import { Product } from "../src/models/Product";
@@ -9,7 +9,10 @@ import supertest from "supertest";
 import { api } from "../src/api";
 import moment from "moment";
 
-const { BLACK_FRIDAY_DATE, PORT } = process.env;
+import { client } from "../src/services/GrpcClient";
+import grpc from "grpc";
+
+let { BLACK_FRIDAY_DATE, PORT } = process.env;
 const request = supertest.agent(api);
 const splitted_date = BLACK_FRIDAY_DATE.split('-')
 
@@ -55,16 +58,26 @@ describe('Testing Product', () => {
         // Connecting to database
         await createConnection();
         // Setting up mocked data for dataase
-        await databaseSetup();
+        return await databaseSetup();
     });
     afterAll(async () => {
-        await clearDatabase();
+        return await clearDatabase();
+    });
+
+    /**
+     * gRPC Connection
+     */
+
+    test('[1] Should Return connectivityState idle', () => {
+        const connectivityState = client.getChannel().getConnectivityState(true);
+        expect(connectivityState).toBe(grpc.connectivityState.IDLE);
+        
     });
 
     /**
      * Happy Path
      */
-    test('Should Return Products Without Discount {Res: StatusCode, ProductResponseInterface}', async () => {
+    test('[2] Should Return Products Without Discount', async () => {
         const response = await request.get("/api/product");
         const { body: products, status } = response;
         expect(status).toBe(200);
@@ -73,17 +86,69 @@ describe('Testing Product', () => {
             products.forEach((product: any) => {
                 expect(product).toHaveProperty('id');
                 expect(product).toHaveProperty('description');
-                expect(product).toHaveProperty('discount');
-                expect(product.discount.percentage).toBe(0);
-                expect(product.discount.value_in_cents).toBe(0);
+                expect(product).toHaveProperty('price_in_cents');
+                expect(product).not.toHaveProperty('discount');
             });
         }
+        
+    });
+    
+    test('[3] Should Return Products with max 10% off, sent Birthday User Id and Set Today as BlackFriday', async () => {
+        // Setting Black Friday Discount for today
+        const last_metadata = await Discount.findOne({ title: "IS_BLACK_FRIDAY" });
+        const new_metadata = {
+            percentage: last_metadata.metadata.percentage,
+            day: moment().format('DD'),
+            month: moment().format('MM')
+        };
+
+        await Discount.update({ title: "IS_BLACK_FRIDAY" }, {
+           metadata: new_metadata
+        });
+        
+        try {
+            const birthdayUser: User = await User.findOne({ first_name: "MOCKED_BIRTHDAY_USER" });
+            const response = await request.get("/api/product").set({"X-USER-ID": Number(birthdayUser.id)});
+    
+            const { body: products, status } = response;
+    
+            expect(status).toBe(200);
+            expect(products.length).toBeGreaterThan(0);
+            if (products.length) {
+                products.forEach((product: any) => {
+                    expect(product).toHaveProperty('id');
+                    expect(product).toHaveProperty('description');
+                    expect(product).toHaveProperty('price_in_cents');
+                    expect(product).toHaveProperty('discount');
+                    expect(product.discount.percentage).toBeLessThanOrEqual(10);
+                    expect(product.discount.value_in_cents).toBeGreaterThan(0);
+                });
+            }
+    
+            const metadata = {
+                percentage: 5,
+                day: String(splitted_date[0]),
+                month: String(splitted_date[1])
+            }
+    
+            await Discount.update({ title: "IS_BLACK_FRIDAY" }, {
+                metadata
+            });
+        } catch (error) {
+            const metadata = {
+                percentage: 5,
+                day: String(splitted_date[0]),
+                month: String(splitted_date[1])
+            }
+    
+            await Discount.update({ title: "IS_BLACK_FRIDAY" }, {
+                metadata
+            });
+        }
+        
     });
 
-    /**
-     * Positive Response with Optional Parameters
-     */
-    test('Should Return Products With Birthday Discount {Req: Birthday User | Res: StatusCode, ProductResponseInterface}', async () => {
+    test('[4] Should Return Products With Birthday Discount', async () => {
         const birthdayUser: User = await User.findOne({ first_name: "MOCKED_BIRTHDAY_USER" });
         const birthdayDiscount: Discount = await Discount.findOne({ title: "IS_BIRTHDAY_USER" });
         const response = await request.get("/api/product").set({"X-USER-ID": Number(birthdayUser.id)});
@@ -94,14 +159,16 @@ describe('Testing Product', () => {
             products.forEach((product: any) => {
                 expect(product).toHaveProperty('id');
                 expect(product).toHaveProperty('description');
+                expect(product).toHaveProperty('price_in_cents');
                 expect(product).toHaveProperty('discount');
                 expect(product.discount.percentage).toBe(birthdayDiscount.metadata.percentage);
                 expect(product.discount.value_in_cents).toBeGreaterThan(0);
             });
         }
+        
     });
 
-    test('Should Return Products Without Discount {Req: Normal User Id | Res: StatusCode, ProductResponseInterface}', async () => {
+    test('[5] Should Return Products Without Discount, sent Normal User in Normal Day', async () => {
         const birthdayUser: User = await User.findOne({ first_name: "NORMAL_USER_1" });
         const response = await request.get("/api/product").set({"X-USER-ID": Number(birthdayUser.id)});
         const { body: products, status } = response;
@@ -111,17 +178,17 @@ describe('Testing Product', () => {
             products.forEach((product: any) => {
                 expect(product).toHaveProperty('id');
                 expect(product).toHaveProperty('description');
-                expect(product).toHaveProperty('discount');
-                expect(product.discount.percentage).toBe(0);
-                expect(product.discount.value_in_cents).toBe(0);
+                expect(product).toHaveProperty('price_in_cents');
+                expect('discount' in product).toBeFalsy();
             });
         }
+        
     });
 
     /**
      * Negative Response with Valid Optional Parameters
      */
-    test('Should Return Products Without Discount {Req: NonExistent Id User | Res: StatusCode, ProductResponseInterface}', async () => {
+    test('[6] Should Return Products Without Discount, sent Nonexistent User', async () => {
         const getMaxUserId = async (param: any = null): Promise<any> => {
             const result = await createQueryBuilder("User").select("MAX(User.id)", "max").getRawOne();
             return result.max;
@@ -138,9 +205,8 @@ describe('Testing Product', () => {
             products.forEach((product: any) => {
                 expect(product).toHaveProperty('id');
                 expect(product).toHaveProperty('description');
-                expect(product).toHaveProperty('discount');
-                expect(product.discount.percentage).toBe(0);
-                expect(product.discount.value_in_cents).toBe(0);
+                expect(product).toHaveProperty('price_in_cents');
+                expect('discount' in product).toBeFalsy();
             });
         }
     });
@@ -148,13 +214,12 @@ describe('Testing Product', () => {
     /**
      * Negative Response with Invalid Optional Parameters
      */
-    test('Should Return Error {Req: Invalid Header Input | Res: StatusCode, ErrorBodyResponse}', async () => {
+    test('[7] Should Return Error, sent Invalid X-USER-ID input', async () => {
         const response = await request.get("/api/product").set("X-USER-ID", "S");
         const { body, status } = response;
         expect(status).toBe(400);
         expect(body).toEqual([{isInt: "x-user-id must be an integer number"}]);
     });
-
 });
 
 async function feedDiscount() {

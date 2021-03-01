@@ -3,10 +3,10 @@ from .models import Discount
 from datetime import datetime
 from .utils import percentageGrossValue
 import json
+import grpc
 from dotenv import load_dotenv
 import os
 load_dotenv()
-
 
 class DiscountService():
     @staticmethod
@@ -16,13 +16,10 @@ class DiscountService():
 
         total_percent = 0
         
-        if not user or not product:
-            print("DEBUG::NO USER/PRODUCT FOUND")
-            print("USER: ", user)
-            print("PRODUCT: ", product)
+        if not user:
             return {
-                "percentage": 0.0,
-                "value_in_cents": 0
+                "error": "USER_NOT_FOUND",
+                "code": grpc.StatusCode.NOT_FOUND
             }
         
         total_percent += CheckDiscountRuleService.checkDiscountRules(user, product)
@@ -33,9 +30,6 @@ class DiscountService():
                 "value_in_cents": int(percentageGrossValue(int(product['price_in_cents']), total_percent))
             }
         else:
-            print("DEBUG::NO MATCH DISCOUNT")
-            print("USER: ", user)
-            print("PRODUCT: ", product)
             return {
                 "percentage": 0.0,
                 "value_in_cents": 0
@@ -53,8 +47,8 @@ class CheckDiscountRuleService():
                 checking = getattr(CheckDiscountRuleService, discount["title"])
                 if checking(user, product, discount):
                     discount_percent += int(discount["metadata"]["percentage"])
-            except ValueError:
-                print("ERROR::DISCOUNT_METHOD_RULE_ERROR", ValueError)
+            except ValueError as e:
+                print("ERROR::DISCOUNT_METHOD_RULE_ERROR", e)
                 pass
 
         check = CheckDiscountRuleService.maxPercentDiscount(discount_percent)
@@ -67,9 +61,8 @@ class CheckDiscountRuleService():
         return max_discount_percentage if discount_percent > max_discount_percentage else discount_percent
 
     @staticmethod
-    def IS_BIRTHDAY_USER(user, product, discount) -> bool:
+    def IS_BIRTHDAY_USER(user=None, product=None, discount=None) -> bool:
         if not user or ('date_of_birth' not in user):
-            # print(f"DEBUG::NO DATE OF BIRTH ON USER {user['id']}")
             return False
         today = datetime.today().strftime('%m-%d')
         user_birth_day = user['date_of_birth'].strftime('%m-%d')
@@ -82,7 +75,9 @@ class CheckDiscountRuleService():
             return is_birthday_user
 
     @staticmethod
-    def IS_BLACK_FRIDAY(user, product, discount) -> bool:
+    def IS_BLACK_FRIDAY(user=None, product=None, discount=None) -> bool:
+        if not discount:
+            return False
         today = datetime.today().strftime('%m-%d')
         black_friday_day    = discount["metadata"]["day"]
         black_friday_month  = discount["metadata"]["month"]

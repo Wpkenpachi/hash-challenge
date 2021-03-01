@@ -15,6 +15,12 @@ class IndividualProductDiscountServicer(model_pb2_grpc.IndividualProductDiscount
     def FetchDiscount(self, request, context):
         response = model_pb2.GetDiscountResponse()
         discount = DiscountService.getDiscount(request.product_id, request.user_id)
+        # discount = {"error": "USER_NOT_FOUND", "code": grpc.StatusCode.NOT_FOUND}
+        if 'error' in discount:
+            context.set_details(discount["error"])
+            context.set_code(discount["code"])
+            return model_pb2_grpc.GetDiscountErrorResponse()
+
         response.percentage = float(discount['percentage'])
         response.value_in_cents = int(discount['value_in_cents'])
         return response
