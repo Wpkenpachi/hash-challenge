@@ -8,7 +8,7 @@
     $ sh run up
 > This command will setup Postgres database, gRPC client (Node Api) and gRPC server (Python Api)
 
-## Stoping Docker-Compose and removing images and containers
+## Stopping Docker-Compose and removing images and containers
     $ sh run down
 > This command will down Postgres database, gRPC client (Node Api) and gRPC server (Python Api)
 
