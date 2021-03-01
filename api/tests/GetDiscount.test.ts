@@ -96,6 +96,14 @@ describe('Testing Product', () => {
     test('[3] Should Return Products with max 10% off, sent Birthday User Id and Set Today as BlackFriday', async () => {
         // Setting Black Friday Discount for today
         const last_metadata = await Discount.findOne({ title: "IS_BLACK_FRIDAY" });
+
+        const metadata = {
+            type: "PERCENTAGE",
+            percentage: 5,
+            day: String(splitted_date[0]),
+            month: String(splitted_date[1])
+        };
+
         const new_metadata = {
             percentage: last_metadata.metadata.percentage,
             day: moment().format('DD'),
@@ -125,21 +133,10 @@ describe('Testing Product', () => {
                 });
             }
     
-            const metadata = {
-                percentage: 5,
-                day: String(splitted_date[0]),
-                month: String(splitted_date[1])
-            }
-    
             await Discount.update({ title: "IS_BLACK_FRIDAY" }, {
                 metadata
             });
         } catch (error) {
-            const metadata = {
-                percentage: 5,
-                day: String(splitted_date[0]),
-                month: String(splitted_date[1])
-            }
     
             await Discount.update({ title: "IS_BLACK_FRIDAY" }, {
                 metadata

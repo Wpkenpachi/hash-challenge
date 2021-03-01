@@ -20,6 +20,7 @@ export class CreateUsers implements Seeder {
             {
                 title: "IS_BLACK_FRIDAY",
                 metadata: {
+                    type: "PERCENTAGE",
                     percentage: 10,
                     day: String(splitted_date[0]),
                     month: String(splitted_date[1])
@@ -28,6 +29,7 @@ export class CreateUsers implements Seeder {
             {
                 title: "IS_BIRTHDAY_USER",
                 metadata: {
+                    type: "PERCENTAGE",
                     percentage: 5
                 }
             }

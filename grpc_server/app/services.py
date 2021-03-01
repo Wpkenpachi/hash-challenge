@@ -1,11 +1,12 @@
 from .repositories import UserRepository, ProductRepository, DiscountRepository
 from .models import Discount
 from datetime import datetime
-from .utils import percentageGrossValue
+from .utils import percentageGrossValue, getPercentageValue
 import json
 import grpc
-from dotenv import load_dotenv
 import os
+from .interfaces import DiscountType
+from dotenv import load_dotenv
 load_dotenv()
 
 class DiscountService():
@@ -27,11 +28,11 @@ class DiscountService():
         if total_percent:
             return {
                 "percentage": total_percent,
-                "value_in_cents": int(percentageGrossValue(int(product['price_in_cents']), total_percent))
+                "value_in_cents": CheckDiscountRuleService.applyDiscount(total_percent, product)
             }
         else:
             return {
-                "percentage": 0.0,
+                "percentage": 0,
                 "value_in_cents": 0
             }
 
@@ -46,13 +47,27 @@ class CheckDiscountRuleService():
             try:
                 checking = getattr(CheckDiscountRuleService, discount["title"])
                 if checking(user, product, discount):
-                    discount_percent += int(discount["metadata"]["percentage"])
+                    discount_percent += CheckDiscountRuleService.calculatePercentDiscount(discount, product)
             except ValueError as e:
                 print("ERROR::DISCOUNT_METHOD_RULE_ERROR", e)
                 pass
+        
+        return discount_percent
 
-        check = CheckDiscountRuleService.maxPercentDiscount(discount_percent)
-        return check
+    @staticmethod
+    def calculatePercentDiscount(discount, product) -> float:
+        if discount['metadata']['type'] == DiscountType.PERCENTAGE:
+            return float(discount['metadata']['percentage'])
+        elif discount['metadata']['type'] == DiscountService.VALUE_IN_CENTS:
+            return getPercentageValue(int(product['price_in_cents']), int(discount['metadata']['value_in_cents']))
+        else:
+            return 0
+    
+    @staticmethod
+    def applyDiscount(discount_percent, product) -> int:
+        MAX_DISCOUNT_PERCENTAGE = int(os.getenv('MAX_DISCOUNT_PERCENTAGE'))
+        percentage_value = percentageGrossValue(int(product['price_in_cents']), discount_percent)
+        return percentage_value if discount_percent <= MAX_DISCOUNT_PERCENTAGE else percentageGrossValue(int(product['price_in_cents']), MAX_DISCOUNT_PERCENTAGE)
 
     @staticmethod
     def maxPercentDiscount(discount_percent) -> int:
