@@ -30,3 +30,60 @@ the `percentage` or/and `value_in_cents` and `type` (to set if discount is by pe
 For every each discount record, there's a method on gRPC Python server to handle it. For each
 discount to be created needs one handler method with the same name as `title` field. e.g:
 ![grpc-service-discount-methods](grpc-service-discount-methods.png)
+
+## Endpoints
+<table>
+    <thead>
+        <tr>
+            <th> Route </th>
+            <th> Header </th>
+            <th> Query </th>
+            <th> Body </th>
+            <th> Response </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td> /product </td>
+            <td>  </td>
+            <td> </td>
+            <td> </td>
+            <td>
+                <pre>
+                [
+                    {
+                        "id": 1,
+                        "price_in_cents": 7972,
+                        "title": "Port - 74 Brights",
+                        "description": "description"
+                    },
+                    ...
+                ]
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td> /product </td>
+            <td> X-USER-ID </td>
+            <td> </td>
+            <td> </td>
+            <td>
+                <pre>
+                [
+                    {
+                        "id": 1,
+                        "price_in_cents": 7972,
+                        "title": "Port - 74 Brights",
+                        "description": "description",
+                        "discount": {
+                            "percentage": 5,
+                            "value_in_cents": 398
+                        }
+                    },
+                    ...
+                ]
+                </pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
