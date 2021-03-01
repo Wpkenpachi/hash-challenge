@@ -134,12 +134,12 @@ describe('Testing Product', () => {
             }
     
             await Discount.update({ title: "IS_BLACK_FRIDAY" }, {
-                metadata
+                metadata: last_metadata.metadata
             });
         } catch (error) {
     
             await Discount.update({ title: "IS_BLACK_FRIDAY" }, {
-                metadata
+                metadata: last_metadata.metadata
             });
         }
         
