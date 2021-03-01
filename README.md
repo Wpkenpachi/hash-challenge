@@ -24,7 +24,7 @@
 ## How Discount is Structured
 All Discount types will be recorded on database with an `id`, `title` (the name and type of discount) and a `metadata`.
 The metadata will have all required data to apply product discounts. The required metadata properties is
-the `percentage` or/and `value_in_cents` and `type`, all aditional properties is specific data for a specific discount type.
+the `percentage` or/and `value_in_cents` and `type` (to set if discount is by percentage or value_in_cents), all aditional properties is specific data for a specific discount type.
 
 ## How Discount Works
 For every each discount record, there's a method on gRPC Python server to handle it. For each
