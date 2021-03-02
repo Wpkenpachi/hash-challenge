@@ -8,8 +8,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 COPY .env.prod .env
 
-RUN chmod +x proto-build.sh
-RUN ./proto-build.sh
+RUN chmod +x protobuild
+RUN sh protobuild
 
 EXPOSE 50051
 CMD ["python", "-u",  "server.py"]

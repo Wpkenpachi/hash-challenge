@@ -11,7 +11,7 @@ COPY . .
 COPY ormconfig.prod.json ./ormconfig.json
 COPY .env.prod .env
 
-RUN chmod +x run.sh
+RUN chmod +x setup
 RUN yarn run grpc_tools_node_protoc \
     --js_out=import_style=commonjs,binary:./src/proto \
     --grpc_out=./src/proto \
@@ -26,4 +26,4 @@ RUN yarn run grpc_tools_node_protoc \
     ./src/proto/*.proto
 
 EXPOSE 8080
-CMD [ "sh", "./run.sh"]
+CMD [ "sh", "setup"]

@@ -2,7 +2,7 @@
 [Challenge Description](https://github.com/hashlab/hiring/blob/master/challenges/pt-br/back-challenge.md)
 
 ## Giving permission to run file
-    $ chmox +x run
+    $ chmod +x run
 
 ## Runnig Up Docker-Compose
     $ sh run up
