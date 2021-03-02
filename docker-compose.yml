@@ -43,19 +43,6 @@ services:
     networks:
       - database_network
 
-  pgadmin:
-    depends_on:
-      - db
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "admin@admin"
-      PGADMIN_DEFAULT_PASSWORD: "123"
-    ports:
-      - "8282:80"
-    networks:
-      - database_network
-
 networks:
   database_network:
     driver: bridge
