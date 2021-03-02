@@ -29,7 +29,7 @@ tests()
     echo "[Running gRPC Python Unit Tests]"
     docker exec -it python_server sh -c "python3 -m unittest"
 
-    echo "=========================================================================== gRPC Client ==================================================================================="
+    echo "==================================================== gRPC Client ============================================================"
     echo "[Running gRPC Node Client E2E Tests]"
     docker exec -it node_client sh -c "npm run test"
 }
