@@ -1,7 +1,7 @@
-from .database import connection
+from app.db.database import connection
 import psycopg2.extras
 
-class BaseModel():
+class Model():
     conn    = None
     cursor  = None
     table   = None
@@ -42,32 +42,3 @@ class BaseModel():
         elif self.result and single:
             return dict(self.result)
         return None
-
-class User(BaseModel):
-    id = None
-    first_name = None
-    last_name = None
-    date_of_birth = None
-
-    def __init__(self, model_shape = None):
-        super().__init__(model_shape)
-        self.table = "user"
-
-class Product(BaseModel):
-    id = None
-    price_in_cents = None
-    title = None
-    description = None
-
-    def __init__(self, model_shape = None):
-        super().__init__(model_shape)
-        self.table = "product"
-
-class Discount(BaseModel):
-    id = None
-    title = None
-    metadata = None
-
-    def __init__(self, model_shape = None):
-        super().__init__(model_shape)
-        self.table = "discount"

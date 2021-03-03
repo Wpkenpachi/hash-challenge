@@ -12,7 +12,7 @@ export async function getProductsWithDiscount(user_id: number | undefined): Prom
         });
     }
     else {
-        let results: any[] = [];
+        const results: any[] = [];
         let counter = 0;
         const loop = async (product: Product, metadata: any) => {
             const length: number = products.length - 1;

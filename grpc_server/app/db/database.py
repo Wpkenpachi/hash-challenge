@@ -1,5 +1,5 @@
 import psycopg2
-import os, time
+import os
 from dotenv import load_dotenv
 
 def connection():

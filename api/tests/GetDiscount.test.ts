@@ -12,7 +12,7 @@ import moment from "moment";
 import { client } from "../src/services/GrpcClient";
 import grpc from "grpc";
 
-let { BLACK_FRIDAY_DATE, PORT } = process.env;
+const { BLACK_FRIDAY_DATE, PORT } = process.env;
 const request = supertest.agent(api);
 const splitted_date = BLACK_FRIDAY_DATE.split('-')
 
@@ -235,7 +235,7 @@ async function feedDiscount() {
         }];
 
     return Promise.all(discounts.map( async discount => {
-        let new_discount        = new Discount();
+        const new_discount        = new Discount();
         new_discount.title      = discount.title;
         new_discount.metadata   = discount.metadata;
         await new_discount.save();

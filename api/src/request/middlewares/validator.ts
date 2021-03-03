@@ -8,7 +8,7 @@ export const headerValidation = (interfaceClass: any) => {
         validate(output, { skipMissingProperties: true }).then(errors => {
             if (errors.length > 0) {
                 // console.log(errors);
-                let errorTexts = Array();
+                let errorTexts: any[] = [];
                 for (const errorItem of errors) {
                     errorTexts = errorTexts.concat(errorItem.constraints);
                 }

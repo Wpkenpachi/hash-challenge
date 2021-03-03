@@ -12,6 +12,7 @@ services:
       - database_network
     expose:
       - 5432
+    restart: always
     # ports:
     #   - 5431:5432
 
@@ -40,6 +41,19 @@ services:
     ports:
       - 50051:50051
     tty: true
+    networks:
+      - database_network
+
+  pgadmin:
+    depends_on:
+      - db
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin"
+      PGADMIN_DEFAULT_PASSWORD: "123"
+    ports:
+      - "8282:80"
     networks:
       - database_network
 

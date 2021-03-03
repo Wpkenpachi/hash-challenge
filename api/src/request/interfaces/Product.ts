@@ -5,7 +5,7 @@ export class GetProductHeaderRequest {
     @IsOptional()
     @Expose()
     @IsInt()
-    "x-user-id": Number;
+    "x-user-id": number;
 }
 
 export interface GetProductReseponse {

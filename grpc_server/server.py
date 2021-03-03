@@ -2,8 +2,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-from app.repositories import UserRepository
-from app.services import DiscountService
+from app.repositories.user_repository import UserRepository
+from app.services.discount_service import DiscountService
 
 import grpc
 from concurrent import futures
@@ -15,7 +15,6 @@ class IndividualProductDiscountServicer(model_pb2_grpc.IndividualProductDiscount
     def FetchDiscount(self, request, context):
         response = model_pb2.GetDiscountResponse()
         discount = DiscountService.getDiscount(request.product_id, request.user_id)
-        # discount = {"error": "USER_NOT_FOUND", "code": grpc.StatusCode.NOT_FOUND}
         if 'error' in discount:
             context.set_details(discount["error"])
             context.set_code(discount["code"])
@@ -29,7 +28,7 @@ def main():
     port = os.getenv('GRPC_SERVER_PORT')
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     model_pb2_grpc.add_IndividualProductDiscountServicer_to_server(IndividualProductDiscountServicer(), server)
-    print('Starting server. Listening on port 50052.')
+    print(f'Starting server. Listening on port {port}.')
     server.add_insecure_port(f'[::]:{port}')
     server.start()
     server.wait_for_termination()
