@@ -1,5 +1,6 @@
 grpcio
 grpcio-tools
 python-dotenv
-psycopg2-binary
 pytest-grpc
+peewee
+psycopg2-binary

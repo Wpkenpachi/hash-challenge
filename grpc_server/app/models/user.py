@@ -1,11 +1,11 @@
-from .model import Model
+from peewee import *
+from .model import BaseModel
 
-class User(Model):
-    id = None
-    first_name = None
-    last_name = None
-    date_of_birth = None
+class User(BaseModel):
+    id = IntegerField(primary_key=True)
+    date_of_birth = DateTimeField()
+    first_name = CharField()
+    last_name = CharField()
 
-    def __init__(self, model_shape = None):
-        super().__init__(model_shape)
-        self.table = "user"
+    class Meta:
+        table_name = 'user'

@@ -1,11 +1,11 @@
-from .model import Model
+from peewee import *
+from .model import BaseModel
 
-class Product(Model):
-    id = None
-    price_in_cents = None
-    title = None
-    description = None
+class Product(BaseModel):
+    id = IntegerField(primary_key=True)
+    description = CharField()
+    price_in_cents = IntegerField()
+    title = CharField()
 
-    def __init__(self, model_shape = None):
-        super().__init__(model_shape)
-        self.table = "product"
+    class Meta:
+        table_name = 'product'

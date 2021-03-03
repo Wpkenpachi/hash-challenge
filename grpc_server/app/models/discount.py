@@ -1,10 +1,10 @@
-from .model import Model
+from peewee import *
+from .model import BaseModel
 
-class Discount(Model):
-    id = None
-    title = None
-    metadata = None
+class Discount(BaseModel):
+    id = IntegerField(primary_key=True)
+    title = CharField(unique=True)
+    metadata = TextField(constraints=[SQL("DEFAULT '{}'::text")])
 
-    def __init__(self, model_shape = None):
-        super().__init__(model_shape)
-        self.table = "discount"
+    class Meta:
+        table_name = 'discount'

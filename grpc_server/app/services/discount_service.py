@@ -2,12 +2,9 @@ import json
 import grpc
 import os
 from datetime import datetime
-# from dotenv import load_dotenv
-# load_dotenv()
 
-from app.repositories.user_repository import UserRepository
-from app.repositories.product_repository import ProductRepository
-from app.repositories.discount_repository import DiscountRepository
+from app.models.user import User
+from app.models.product import Product
 from app.models.discount import Discount
 
 from app.utils import percentageGrossValue, getPercentageValue
@@ -18,9 +15,8 @@ from app.services.check_discount_rule_service import CheckDiscountRuleService
 class DiscountService():
     @staticmethod
     def getDiscount(product_id: int, user_id: int):
-        user    = UserRepository().first(user_id)
-        product = ProductRepository().first(product_id)
-
+        user    = User.get(User.id == user_id)
+        product = Product.get(Product.id == product_id)
         total_percent = 0
         
         if not user:

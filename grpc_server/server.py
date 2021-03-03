@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-from app.repositories.user_repository import UserRepository
 from app.services.discount_service import DiscountService
 
 import grpc

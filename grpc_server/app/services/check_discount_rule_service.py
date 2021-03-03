@@ -5,9 +5,8 @@ from datetime import datetime
 # from dotenv import load_dotenv
 # load_dotenv()
 
-from app.repositories.user_repository import UserRepository
-from app.repositories.product_repository import ProductRepository
-from app.repositories.discount_repository import DiscountRepository
+from app.models.user import User
+from app.models.product import Product
 from app.models.discount import Discount
 
 from app.utils import percentageGrossValue, getPercentageValue
@@ -16,13 +15,13 @@ from app.interfaces import DiscountType
 class CheckDiscountRuleService():
     @staticmethod
     def checkDiscountRules(user, product):
-        discounts               = DiscountRepository().getAll()
+        discounts               = [_discount for _discount in Discount.select()]
         discount_percent        = 0
 
         for discount in discounts:
-            discount["metadata"] = json.loads(discount["metadata"])
+            discount.metadata = json.loads(discount.metadata)
             try:
-                checking = getattr(CheckDiscountRuleService, discount["title"])
+                checking = getattr(CheckDiscountRuleService, discount.title)
                 if checking(user, product, discount):
                     discount_percent += CheckDiscountRuleService.calculatePercentDiscount(discount, product)
             except ValueError as e:
@@ -33,18 +32,18 @@ class CheckDiscountRuleService():
 
     @staticmethod
     def calculatePercentDiscount(discount, product) -> float:
-        if discount['metadata']['type'] == DiscountType.PERCENTAGE:
-            return float(discount['metadata']['percentage'])
-        elif discount['metadata']['type'] == DiscountType.VALUE_IN_CENTS:
-            return getPercentageValue(int(product['price_in_cents']), int(discount['metadata']['value_in_cents']))
+        if discount.metadata["type"] == DiscountType.PERCENTAGE:
+            return float(discount.metadata["percentage"])
+        elif discount.metadata["type"] == DiscountType.VALUE_IN_CENTS:
+            return getPercentageValue(int(product.price_in_cents), int(discount.metadata.value_in_cents))
         else:
             return 0
     
     @staticmethod
     def applyDiscount(discount_percent, product) -> int:
         MAX_DISCOUNT_PERCENTAGE = int(os.getenv('MAX_DISCOUNT_PERCENTAGE'))
-        percentage_value = percentageGrossValue(int(product['price_in_cents']), discount_percent)
-        return percentage_value if discount_percent <= MAX_DISCOUNT_PERCENTAGE else percentageGrossValue(int(product['price_in_cents']), MAX_DISCOUNT_PERCENTAGE)
+        percentage_value = percentageGrossValue(int(product.price_in_cents), discount_percent)
+        return percentage_value if discount_percent <= MAX_DISCOUNT_PERCENTAGE else percentageGrossValue(int(product.price_in_cents), MAX_DISCOUNT_PERCENTAGE)
 
     @staticmethod
     def maxPercentDiscount(discount_percent) -> int:
@@ -54,10 +53,10 @@ class CheckDiscountRuleService():
 
     @staticmethod
     def IS_BIRTHDAY_USER(user=None, product=None, discount=None) -> bool:
-        if not user or ('date_of_birth' not in user):
+        if not user or not user.date_of_birth:
             return False
         today = datetime.today().strftime('%m-%d')
-        user_birth_day = user['date_of_birth'].strftime('%m-%d')
+        user_birth_day = user.date_of_birth.strftime('%m-%d')
         is_birthday_user = True if today == user_birth_day else False
         if is_birthday_user:
             return is_birthday_user
@@ -69,8 +68,8 @@ class CheckDiscountRuleService():
         if not discount:
             return False
         today = datetime.today().strftime('%m-%d')
-        black_friday_day    = discount["metadata"]["day"]
-        black_friday_month  = discount["metadata"]["month"]
+        black_friday_day    = discount.metadata["day"]
+        black_friday_month  = discount.metadata["month"]
         black_friday        = f"{black_friday_month}-{black_friday_day}"
         is_black_friday = True if today == black_friday else False
         if is_black_friday:

@@ -28,6 +28,7 @@ export async function getProductsWithDiscount(user_id: number | undefined): Prom
                 counter += 1;
                 await loop(products[counter], metadata);
             } catch (error) {
+                console.log(error);
                 results.push(products[counter]);
                 counter += 1;
                 await loop(products[counter], metadata);
