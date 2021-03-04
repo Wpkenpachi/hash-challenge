@@ -89,7 +89,7 @@ discount to be created needs one handler method with the same name as `title` fi
     </tbody>
 </table>
 
-# Test Helper Scripts
+# Service Handlers
 For docker-compose handling, we have `run` file.
 >   $ sh run _OPTION_
 
@@ -99,7 +99,10 @@ down           down docker-compose and remove containers, networks, images and v
 tests          run gRPC Python Server tests and gRPC Node Client tests
 downserver     down gRPC Python Server
 ```
+> Obs: When running this commands, the services can take some seconds to be available \
+and configured, even after images builded.
 
+# Test Helper Scripts
 For test help, we have `get` file. Will be accessed by docker commands
 > $ docker exec -it _python_server_ sh -c "python3 get _ARG_"
 ```bash
@@ -109,6 +112,11 @@ nuser       Will return a valid normal user (not in birthday) from database.
 bfriday     Will set black friday for today on database.
 reset       Will reset black friday day on database.
 ```
+
+### Restarting gRPC Server Container
+>    $ docker-compose start server
+
+Obs: gRPC Server can take some seconds to be restarted, and available
 
 # Folder and File Tree ( only important files )
 <pre>
