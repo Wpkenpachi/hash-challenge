@@ -89,7 +89,7 @@ discount to be created needs one handler method with the same name as `title` fi
     </tbody>
 </table>
 
-# Service Handlers
+# Service Handlers Script
 For docker-compose handling, we have `run` file.
 >   $ sh run _OPTION_
 
