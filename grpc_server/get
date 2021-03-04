@@ -1,0 +1,77 @@
+#!/usr/bin/python3
+import sys, json
+from datetime import datetime
+from dotenv import load_dotenv
+load_dotenv()
+
+from peewee import *
+from app.models.user import User
+from app.models.discount import Discount
+
+
+action = sys.argv[1] if len(sys.argv) > 1 else None
+actions = ["buser", "bfriday", "reset"]
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+if action in actions:
+    if action == "buser":
+        today = datetime.today().strftime('%m-%d')
+        try:
+            user = User.raw("SELECT * FROM public.user WHERE TO_CHAR(date_of_birth, 'MM-DD') LIKE %s", today).get()
+            print(f"ID: {user.id}\nFirstName: {user.first_name}")
+        except:
+            day     = datetime.today().strftime('%d')
+            month   = datetime.today().strftime('%m')
+            user_id = User.insert({
+                "first_name": "A Birthday User",
+                "last_name": "LAST_SEED_NAME",
+                "date_of_birth": datetime.strptime(f"{month}-{day}-1996 00:10:00", '%m-%d-%Y %H:%M:%S').strftime('%m-%d-%y %H:%M:%S')
+            }).execute()
+            user = User.get_by_id(user_id)
+            print(f"ID: {user.id}\nFirstName: {user.first_name}")
+
+    elif action == "bfriday":
+        day     = datetime.today().strftime('%d')
+        month   = datetime.today().strftime('%m')
+        year    = datetime.today().strftime('%Y')
+        metadata = json.loads(Discount.get(Discount.title == "IS_BLACK_FRIDAY").metadata)
+        metadata["day"] = day
+        metadata["month"] = month
+        (Discount
+        .update({Discount.metadata: json.dumps(metadata)})
+        .where(Discount.title == "IS_BLACK_FRIDAY")
+        .execute())
+        print(f"Black Friday was set for today: {day}-{month}-{year}")
+    elif action == "reset":
+        metadata = {"day": "11", "month": "25"}
+        year    = datetime.today().strftime('%Y')
+        (Discount
+        .update({Discount.metadata: json.dumps(metadata)})
+        .where(Discount.title == "IS_BLACK_FRIDAY")
+        .execute())
+        print(f"Black Friday was set for date: 25-11-{year}")
+elif action not in actions and action:
+    print(f"{bcolors.FAIL}Invalid Argument '"+str(action)+"'", bcolors.ENDC)
+    print("""%sValid arguments:
+buser       Will return a valid birthday user from database.
+bfriday     Will set black friday for today on database.
+reset       Will reset black friday day on database.
+%s
+    """ %(bcolors.OKGREEN, bcolors.ENDC))
+else:
+    print("""%sValid arguments:
+buser       Will return a valid birthday user from database.
+bfriday     Will set black friday for today on database.
+reset       Will reset black friday day on database.
+%s
+    """ %(bcolors.OKGREEN, bcolors.ENDC))

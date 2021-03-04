@@ -15,7 +15,7 @@ from app.interfaces import DiscountType
 class CheckDiscountRuleService():
     @staticmethod
     def checkDiscountRules(user, product):
-        discounts               = [_discount for _discount in Discount.select()]
+        discounts               = Discount.select()
         discount_percent        = 0
 
         for discount in discounts:

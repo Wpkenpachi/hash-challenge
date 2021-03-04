@@ -88,3 +88,98 @@ discount to be created needs one handler method with the same name as `title` fi
         </tr>
     </tbody>
 </table>
+
+# Test Helper Scripts
+For docker-compose handling, we have `run` file.
+>   $ sh run _OPTION_
+
+```bash
+Run script options:
+up    run docker-compose up -d --build
+down  down docker-compose and remove containers, networks, images and volumes
+tests run gRPC Python Server tests and gRPC Node Client tests
+```
+
+For test help, we have `get` file. Will be accessed by docker commands
+> $ docker exec -it _python_server_ sh -c "python3 get _ARG_"
+```bash
+Valid args:
+buser       Will return a valid birthday user from database.
+bfriday     Will set black friday for today on database.
+reset       Will reset black friday day on database.
+```
+
+# Folder and File Tree ( only important files )
+<pre>
+📦desafio_hash
+ ┣ 📂api                                    # GRPC NODE CLIENT ( Typescript + Node + Typeorm )
+ ┃ ┣ 📂database
+ ┃ ┃ ┣ 📂migrations
+ ┃ ┃ ┗ 📂seeds
+ ┃ ┃ ┃ ┣ 📜DiscountSeeds.ts
+ ┃ ┃ ┃ ┣ 📜ProductSeeds.ts
+ ┃ ┃ ┃ ┗ 📜UserSeeds.ts
+ ┃ ┣ 📂src
+ ┃ ┃ ┣ 📂business
+ ┃ ┃ ┃ ┗ 📜GetDiscount.ts
+ ┃ ┃ ┣ 📂db
+ ┃ ┃ ┃ ┗ 📜Connection.ts                    # Database Connection
+ ┃ ┃ ┣ 📂models
+ ┃ ┃ ┃ ┣ 📜Discount.ts
+ ┃ ┃ ┃ ┣ 📜Product.ts
+ ┃ ┃ ┃ ┗ 📜User.ts
+ ┃ ┃ ┣ 📂proto                              # gRPC Proto and Generated Files
+ ┃ ┃ ┃ ┣ 📜model.proto
+ ┃ ┃ ┃ ┣ 📜model_grpc_pb.d.ts
+ ┃ ┃ ┃ ┣ 📜model_grpc_pb.js
+ ┃ ┃ ┃ ┣ 📜model_pb.d.ts
+ ┃ ┃ ┃ ┣ 📜model_pb.js
+ ┃ ┃ ┃ ┣ 📜model_pb2.py
+ ┃ ┃ ┃ ┗ 📜model_pb2_grpc.py
+ ┃ ┃ ┣ 📂request
+ ┃ ┃ ┃ ┣ 📂interfaces
+ ┃ ┃ ┃ ┃ ┗ 📜Product.ts
+ ┃ ┃ ┃ ┗ 📂middlewares
+ ┃ ┃ ┃ ┃ ┗ 📜validator.ts
+ ┃ ┃ ┣ 📂routes
+ ┃ ┃ ┃ ┗ 📜index.ts                         # API Expose Routes
+ ┃ ┃ ┣ 📂services
+ ┃ ┃ ┃ ┗ 📜GrpcClient.ts                    # gRPC Client Service
+ ┃ ┃ ┣ 📂utils
+ ┃ ┃ ┣ 📜api.ts
+ ┃ ┃ ┗ 📜server.ts                          # Server Listening Entrypoint
+ ┃ ┣ 📂tests
+ ┃ ┃ ┗ 📜GetDiscount.test.ts                # API tests
+ ┃ ┣ 📜Dockerfile
+ ┃ ┣ 📜setup                                # Bash script to create and populate database
+ ┣ 📂grpc_server                            # GRPC PYTHON SERVER ( Python + peewee orm )
+ ┃ ┣ 📂app
+ ┃ ┃ ┣ 📂db
+ ┃ ┃ ┃ ┗ 📜database.py                      # Database Connection
+ ┃ ┃ ┣ 📂models
+ ┃ ┃ ┃ ┣ 📜discount.py
+ ┃ ┃ ┃ ┣ 📜model.py
+ ┃ ┃ ┃ ┣ 📜product.py
+ ┃ ┃ ┃ ┗ 📜user.py
+ ┃ ┃ ┣ 📂services
+ ┃ ┃ ┃ ┣ 📜check_discount_rule_service.py
+ ┃ ┃ ┃ ┗ 📜discount_service.py
+ ┃ ┃ ┣ 📜interfaces.py
+ ┃ ┃ ┗ 📜utils.py
+ ┃ ┣ 📂proto                                # gRPC Proto and Generated Files
+ ┃ ┃ ┃ ┣ 📜model_pb2.cpython-38.pyc
+ ┃ ┃ ┃ ┗ 📜model_pb2_grpc.cpython-38.pyc
+ ┃ ┃ ┣ 📜model.proto
+ ┃ ┃ ┣ 📜model_pb2.py
+ ┃ ┃ ┗ 📜model_pb2_grpc.py
+ ┃ ┣ 📂tests                                # gRPC Tests
+ ┃ ┃ ┣ 📜test_grpc_server.py
+ ┃ ┃ ┗ 📜test_utils.py
+ ┃ ┣ 📜Dockerfile
+ ┃ ┣ 📜get                                  # Test helper script
+ ┃ ┣ 📜protobuild                           # Bash file that will generate gRPC proto bundles
+ ┃ ┣ 📜requirements.txt
+ ┃ ┗ 📜server.py
+ ┣ 📜docker-compose.yml
+ ┗ 📜run                                    # Bash script to deploy docker-compose
+</pre>
