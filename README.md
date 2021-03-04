@@ -179,8 +179,6 @@ reset       Will reset black friday day on database.
  ┃ ┃ ┣ 📜interfaces.py
  ┃ ┃ ┗ 📜utils.py
  ┃ ┣ 📂proto                                # gRPC Proto and Generated Files
- ┃ ┃ ┃ ┣ 📜model_pb2.cpython-38.pyc
- ┃ ┃ ┃ ┗ 📜model_pb2_grpc.cpython-38.pyc
  ┃ ┃ ┣ 📜model.proto
  ┃ ┃ ┣ 📜model_pb2.py
  ┃ ┃ ┗ 📜model_pb2_grpc.py
