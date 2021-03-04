@@ -94,17 +94,18 @@ For docker-compose handling, we have `run` file.
 >   $ sh run _OPTION_
 
 ```bash
-Run script options:
-up    run docker-compose up -d --build
-down  down docker-compose and remove containers, networks, images and volumes
-tests run gRPC Python Server tests and gRPC Node Client tests
+up             run docker-compose up -d --build
+down           down docker-compose and remove containers, networks, images and volumes
+tests          run gRPC Python Server tests and gRPC Node Client tests
+downserver     down gRPC Python Server
 ```
 
 For test help, we have `get` file. Will be accessed by docker commands
 > $ docker exec -it _python_server_ sh -c "python3 get _ARG_"
 ```bash
-Valid args:
+Valid arguments:
 buser       Will return a valid birthday user from database.
+nuser       Will return a valid normal user (not in birthday) from database.
 bfriday     Will set black friday for today on database.
 reset       Will reset black friday day on database.
 ```

@@ -2,9 +2,10 @@
 Help()
 {
    echo "Run script options:"
-   echo "up    run docker-compose up -d --build"
-   echo "down  down docker-compose and remove containers, networks, images and volumes"
-   echo "tests run gRPC Python Server tests and gRPC Node Client tests"
+   echo "up             run docker-compose up -d --build"
+   echo "down           down docker-compose and remove containers, networks, images and volumes"
+   echo "tests          run gRPC Python Server tests and gRPC Node Client tests"
+   echo "downserver     down gRPC Python Server"
    echo "\n"
 }
 
@@ -42,6 +43,8 @@ else
     elif [ "$HASH_CHALLENGE_SCRIPT_ACTION" = "down" ]
         then down
     elif [ "$HASH_CHALLENGE_SCRIPT_ACTION" = "tests" ]
+        then tests
+    elif [ "$HASH_CHALLENGE_SCRIPT_ACTION" = "downserver" ]
         then tests
     fi
 fi
