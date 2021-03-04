@@ -16,7 +16,7 @@
 ## Running tests
     $ sh run tests
 
-> This command will run python gRPC server tests and node gRPC client tests
+> This command will run python gRPC server tests and node gRPC client tests (Obs: docker-compose need to be running `sh run up`)
 
 ## Database Schema
 ![database-schema](database-schema.png)
