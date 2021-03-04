@@ -149,8 +149,8 @@ reset       Will reset black friday day on database.
  ┃ ┃ ┣ 📂utils
  ┃ ┃ ┣ 📜api.ts
  ┃ ┃ ┗ 📜server.ts                          # Server Listening Entrypoint
- ┃ ┣ 📂tests
- ┃ ┃ ┗ 📜GetDiscount.test.ts                # API tests
+ ┃ ┣ 📂tests                                # API tests
+ ┃ ┃ ┗ 📜GetDiscount.test.ts
  ┃ ┣ 📜Dockerfile
  ┃ ┣ 📜setup                                # Bash script to create and populate database
  ┣ 📂grpc_server                            # GRPC PYTHON SERVER ( Python + peewee orm )
