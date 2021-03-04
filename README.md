@@ -33,6 +33,9 @@ discount to be created needs one handler method with the same name as `title` fi
 
 ## Endpoints
 <b>Base Url:</b> http://localhost:8080
+
+> if you want test on insomnia by importing workspace file: \
+[Insomnia Workspace import file](Insomnia-workspace.yaml)
 <table>
     <thead>
         <tr>
@@ -65,7 +68,7 @@ discount to be created needs one handler method with the same name as `title` fi
         </tr>
         <tr>
             <td> /product </td>
-            <td> X-USER-ID </td>
+            <td> X-USER-ID (int) </td>
             <td> </td>
             <td> </td>
             <td>
@@ -105,7 +108,7 @@ and configured, even after images builded.
 ### Restarting gRPC Server Container
 >    $ docker-compose start server
 
-Obs: gRPC Server can take some seconds to be restarted, and available
+> Obs: gRPC Server can take some seconds to be restarted, and available
 
 # Test Helper Scripts
 For test help, we have `get` file. Will be accessed by docker commands
