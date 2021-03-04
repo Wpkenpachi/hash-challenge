@@ -102,6 +102,11 @@ downserver     down gRPC Python Server
 > Obs: When running this commands, the services can take some seconds to be available \
 and configured, even after images builded.
 
+### Restarting gRPC Server Container
+>    $ docker-compose start server
+
+Obs: gRPC Server can take some seconds to be restarted, and available
+
 # Test Helper Scripts
 For test help, we have `get` file. Will be accessed by docker commands
 > $ docker exec -it _python_server_ sh -c "python3 get _ARG_"
@@ -112,11 +117,6 @@ nuser       Will return a valid normal user (not in birthday) from database.
 bfriday     Will set black friday for today on database.
 reset       Will reset black friday day on database.
 ```
-
-### Restarting gRPC Server Container
->    $ docker-compose start server
-
-Obs: gRPC Server can take some seconds to be restarted, and available
 
 # Folder and File Tree ( only important files )
 <pre>
