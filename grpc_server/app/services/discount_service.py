@@ -25,8 +25,9 @@ class DiscountService():
                 "code": grpc.StatusCode.NOT_FOUND
             }
         
-        total_percent += CheckDiscountRuleService.checkDiscountRules(user, product)
-        
+        total_percent = CheckDiscountRuleService.checkDiscountRules(user, product)
+        print("ToTalPrEcent: ", total_percent)
+        print("APPLIED", CheckDiscountRuleService.applyDiscount(total_percent, product))
         if total_percent:
             return {
                 "percentage": total_percent,

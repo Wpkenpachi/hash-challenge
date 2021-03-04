@@ -28,7 +28,7 @@ class CheckDiscountRuleService():
                 print("ERROR::DISCOUNT_METHOD_RULE_ERROR", e)
                 pass
         
-        return discount_percent
+        return CheckDiscountRuleService.maxPercentDiscount(discount_percent)
 
     @staticmethod
     def calculatePercentDiscount(discount, product) -> float:
@@ -49,7 +49,7 @@ class CheckDiscountRuleService():
     def maxPercentDiscount(discount_percent) -> int:
         max_discount_percentage = int(os.getenv("MAX_DISCOUNT_PERCENTAGE"))
         discount_percent = int(discount_percent)
-        return max_discount_percentage if discount_percent > max_discount_percentage else discount_percent
+        return discount_percent if discount_percent <= max_discount_percentage else max_discount_percentage
 
     @staticmethod
     def IS_BIRTHDAY_USER(user=None, product=None, discount=None) -> bool:
