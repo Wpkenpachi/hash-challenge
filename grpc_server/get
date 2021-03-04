@@ -7,6 +7,7 @@ load_dotenv()
 from peewee import *
 from app.models.user import User
 from app.models.discount import Discount
+from app.models.product import Product
 
 
 action = sys.argv[1] if len(sys.argv) > 1 else None
@@ -59,14 +60,16 @@ if action in actions:
         metadata["day"] = day
         metadata["month"] = month
         (Discount
-        .update({Discount.metadata: json.dumps(metadata)})
+        .update(metadata=json.dumps(metadata))
         .where(Discount.title == "IS_BLACK_FRIDAY")
         .execute())
         print(f"Black Friday was set for today: {day}-{month}-{year}")
     elif action == "reset":
-        metadata = {"day": "11", "month": "25"}
+        metadata = json.loads(Discount.get(Discount.title == "IS_BLACK_FRIDAY").metadata)
+        metadata["day"] = "11"
+        metadata["month"] = "25"
         (Discount
-        .update({Discount.metadata: json.dumps(metadata)})
+        .update(metadata=json.dumps(metadata))
         .where(Discount.title == "IS_BLACK_FRIDAY")
         .execute())
         print(f"Black Friday was set for date: 25-11-{year}")

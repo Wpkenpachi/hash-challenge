@@ -33,6 +33,11 @@ tests()
     docker exec -it node_client sh -c "npm run test"
 }
 
+downserver()
+{
+    docker-compose stop server
+}
+
 HASH_CHALLENGE_SCRIPT_ACTION=$1
 
 if [ -z "$HASH_CHALLENGE_SCRIPT_ACTION" ]
@@ -45,6 +50,6 @@ else
     elif [ "$HASH_CHALLENGE_SCRIPT_ACTION" = "tests" ]
         then tests
     elif [ "$HASH_CHALLENGE_SCRIPT_ACTION" = "downserver" ]
-        then tests
+        then downserver
     fi
 fi
