@@ -1,0 +1,100 @@
+_type: export
+__export_format: 4
+__export_date: 2021-03-04T14:43:40.435Z
+__export_source: insomnia.desktop.app:v2020.5.2
+resources:
+  - _id: req_4d14226bb3b8421cbd69c3ee2a7f3bd0
+    parentId: wrk_456294358ba1454e8332c1a5a22ded37
+    modified: 1614868951888
+    created: 1614149636463
+    url: "{{ _.base_url }}/product"
+    name: GetProduct
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1614149636463
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: wrk_456294358ba1454e8332c1a5a22ded37
+    parentId: null
+    modified: 1613866232334
+    created: 1613866232334
+    name: Hash Challenge
+    description: ""
+    scope: null
+    _type: workspace
+  - _id: req_1c7133f71a8b42108b2d241eb6847cd2
+    parentId: wrk_456294358ba1454e8332c1a5a22ded37
+    modified: 1614868991747
+    created: 1614868786055
+    url: "{{ _.base_url }}/product"
+    name: GetProductXUserId
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: X-USER-ID
+        value: "1"
+        description: ""
+        id: pair_d7db1de4f117415aba9059c22386411e
+        disabled: false
+    authentication: {}
+    metaSortKey: -1614048249930.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_2ec355e7b210fdcae566579f8f8aa5e48805c30f
+    parentId: wrk_456294358ba1454e8332c1a5a22ded37
+    modified: 1614868820590
+    created: 1613866232689
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: {}
+    color: null
+    isPrivate: false
+    metaSortKey: 1613866232689
+    _type: environment
+  - _id: jar_2ec355e7b210fdcae566579f8f8aa5e48805c30f
+    parentId: wrk_456294358ba1454e8332c1a5a22ded37
+    modified: 1613866232695
+    created: 1613866232695
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_d5921304e6c04c8d9e4fe97253bb08bf
+    parentId: wrk_456294358ba1454e8332c1a5a22ded37
+    modified: 1613866232345
+    created: 1613866232345
+    fileName: Hash Challenge
+    contents: ""
+    contentType: yaml
+    _type: api_spec
+  - _id: env_e59ab42581b04ea5987bb623d92ea3c1
+    parentId: env_2ec355e7b210fdcae566579f8f8aa5e48805c30f
+    modified: 1614868941115
+    created: 1614868860174
+    name: Production
+    data:
+      base_url: http://localhost:8080/api
+    dataPropertyOrder:
+      "&":
+        - base_url
+    color: null
+    isPrivate: false
+    metaSortKey: 1614868860174
+    _type: environment
