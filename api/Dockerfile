@@ -2,7 +2,7 @@ FROM node:10.19.0
 WORKDIR /usr/app
 COPY package*.json ./
 
-RUN npm install typescript typeorm ts-node -g
+RUN npm install typescript typeorm ts-node jest -g
 RUN npm install
 
 COPY . .
