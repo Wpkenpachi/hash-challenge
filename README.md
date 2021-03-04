@@ -92,7 +92,7 @@ discount to be created needs one handler method with the same name as `title` fi
     </tbody>
 </table>
 
-# Service Handlers Script
+# Service Handler Scripts
 For docker-compose handling, we have `run` file.
 >   $ sh run _OPTION_
 
@@ -124,7 +124,7 @@ reset       Will reset black friday day on database.
 # Folder and File Tree ( only important files )
 <pre>
 📦desafio_hash
- ┣ 📂api                                    # GRPC NODE CLIENT ( Typescript + Node + Typeorm )
+ ┣ 📂grpc-client-api-microservice           # GRPC NODE CLIENT ( Typescript + Node + Typeorm )
  ┃ ┣ 📂database
  ┃ ┃ ┣ 📂migrations
  ┃ ┃ ┗ 📂seeds
@@ -164,7 +164,7 @@ reset       Will reset black friday day on database.
  ┃ ┃ ┗ 📜GetDiscount.test.ts
  ┃ ┣ 📜Dockerfile
  ┃ ┣ 📜setup                                # Bash script to create and populate database
- ┣ 📂grpc_server                            # GRPC PYTHON SERVER ( Python + peewee orm )
+ ┣ 📂grpc-server-microservice               # GRPC PYTHON SERVER ( Python + peewee orm )
  ┃ ┣ 📂app
  ┃ ┃ ┣ 📂db
  ┃ ┃ ┃ ┗ 📜database.py                      # Database Connection

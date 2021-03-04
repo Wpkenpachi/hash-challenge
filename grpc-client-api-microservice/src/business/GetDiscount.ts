@@ -7,12 +7,12 @@ export async function getProductsWithDiscount(user_id: number | undefined): Prom
     const user: User | undefined = user_id ? await User.findOne(user_id) : undefined;
     const products: Product[] = await Product.find({});
     const results: any[] = [];
-    let counter: number = 0;
+    let counter = 0;
     const loop = async (product: Product, _user: any) => {
         const length: number = products.length - 1;
         if (counter > length) return;
         try {
-            let user_id: number | undefined = _user ? _user.id : undefined;
+            const user_id: number | undefined = _user ? _user.id : undefined;
             const discount: any = await grpcGetDiscount(product.id, user_id);
             if (discount && discount.percentage && discount.valueInCents) {
                 const _product: GetProductReseponse = {...product, discount: {percentage: discount.percentage, value_in_cents: discount.valueInCents}};

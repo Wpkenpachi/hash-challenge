@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 // Connect with database
-import {createConnection, Connection, getConnection, createQueryBuilder, DeepPartial} from "typeorm";
+import {createConnection, getConnection, createQueryBuilder } from "typeorm";
 import { Discount } from "../src/models/Discount";
 import { User } from "../src/models/User";
 import { Product } from "../src/models/Product";
@@ -12,7 +12,7 @@ import moment from "moment";
 import { client } from "../src/services/GrpcClient";
 import grpc from "grpc";
 
-const { BLACK_FRIDAY_DATE, PORT } = process.env;
+const { BLACK_FRIDAY_DATE } = process.env;
 const request = supertest.agent(api);
 const splitted_date = BLACK_FRIDAY_DATE.split('-')
 
@@ -97,13 +97,6 @@ describe('Testing Product', () => {
         // Setting Black Friday Discount for today
         const last_metadata = await Discount.findOne({ title: "IS_BLACK_FRIDAY" });
 
-        const metadata = {
-            type: "PERCENTAGE",
-            percentage: 5,
-            day: String(splitted_date[0]),
-            month: String(splitted_date[1])
-        };
-
         const new_metadata = {
             percentage: last_metadata.metadata.percentage,
             day: moment().format('DD'),
@@ -186,7 +179,7 @@ describe('Testing Product', () => {
      * Negative Response with Valid Optional Parameters
      */
     test('[6] Should Return Products Without Discount, sent Nonexistent User', async () => {
-        const getMaxUserId = async (param: any = null): Promise<any> => {
+        const getMaxUserId = async (): Promise<any> => {
             const result = await createQueryBuilder("User").select("MAX(User.id)", "max").getRawOne();
             return result.max;
         };
