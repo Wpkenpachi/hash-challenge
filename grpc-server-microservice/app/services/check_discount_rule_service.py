@@ -58,10 +58,7 @@ class CheckDiscountRuleService():
         today = datetime.today().strftime('%m-%d')
         user_birth_day = user.date_of_birth.strftime('%m-%d')
         is_birthday_user = True if today == user_birth_day else False
-        if is_birthday_user:
-            return is_birthday_user
-        else:
-            return is_birthday_user
+        return is_birthday_user
 
     @staticmethod
     def IS_BLACK_FRIDAY(user=None, product=None, discount=None) -> bool:
@@ -72,7 +69,4 @@ class CheckDiscountRuleService():
         black_friday_month  = discount.metadata["month"]
         black_friday        = f"{black_friday_month}-{black_friday_day}"
         is_black_friday = True if today == black_friday else False
-        if is_black_friday:
-            return is_black_friday
-        else:
-            return is_black_friday
+        return is_black_friday
