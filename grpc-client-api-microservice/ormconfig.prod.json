@@ -1,19 +1,21 @@
 {
-    "type": "postgres",
-    "host": "db",
-    "port": 5432,
-    "username": "hashusername",
-    "password": "hashpass",
-    "database": "hash_challenge",
-    "entities": [
-        "./src/models/**/*.ts"
-    ],
-    "migrations": [
-        "./database/migration/**/*.ts"
-    ],
-    "seeds": ["./database/seeds/**/*{.ts,.js}"],
-    "cli": {
-        "entitiesDir": "./src/models",
-        "migrationsDir": "./database/migrations"
-    }
+  "type": "postgres",
+  "host": "db",
+  "port": 5432,
+  "username": "hashusername",
+  "password": "hashpass",
+  "database": "hash_challenge",
+  "entities": [
+    "./src/models/**/*.ts"
+  ],
+  "migrations": [
+    "./database/migration/**/*.ts"
+  ],
+  "seeds": [
+    "./database/seeds/**/*{.ts,.js}"
+  ],
+  "cli": {
+    "entitiesDir": "./src/models",
+    "migrationsDir": "./database/migrations"
+  }
 }

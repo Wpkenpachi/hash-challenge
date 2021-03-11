@@ -6,7 +6,7 @@ Help()
    echo "down           down docker-compose and remove containers, networks, images and volumes"
    echo "tests          run gRPC Python Server tests and gRPC Node Client tests"
    echo "downserver     down gRPC Python Server"
-   echo "\n"
+   printf "\n"
 }
 
 up()

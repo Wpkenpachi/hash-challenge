@@ -1,4 +1,4 @@
-FROM postgres:latest
+FROM postgres:13.2
 
 LABEL name="database_service_image"
 
