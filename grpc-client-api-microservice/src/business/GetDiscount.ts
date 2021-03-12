@@ -1,7 +1,7 @@
-import { User } from "../models/User"
-import { Product } from "../models/Product"
-import { grpcGetDiscount } from "../services/GrpcClient"
-import { GetProductReseponse } from "../request/interfaces/Product"
+import { User } from '../models/User'
+import { Product } from '../models/Product'
+import { grpcGetDiscount } from '../services/GrpcClient'
+import { GetProductReseponse } from '../request/interfaces/Product'
 
 export async function getProductsWithDiscount(userId: number | undefined): Promise<GetProductReseponse[] | Product[]> {
   const user: User | undefined = userId ? await User.findOne(userId) : undefined

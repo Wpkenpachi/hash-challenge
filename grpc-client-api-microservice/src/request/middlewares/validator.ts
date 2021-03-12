@@ -1,6 +1,6 @@
-import { validate } from "class-validator";
-import { plainToClass } from "class-transformer";
-import { Request, Response, NextFunction } from "express";
+import { validate } from 'class-validator';
+import { plainToClass } from 'class-transformer';
+import { Request, Response, NextFunction } from 'express';
 
 export const headerValidation = (interfaceClass: any) => {
   return function (req: Request, res: Response, next: NextFunction) {

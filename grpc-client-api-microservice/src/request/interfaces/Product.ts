@@ -1,11 +1,11 @@
-import { IsOptional, IsInt } from "class-validator";
-import { Expose } from "class-transformer";
+import { IsOptional, IsInt } from 'class-validator';
+import { Expose } from 'class-transformer';
 
 export class GetProductHeaderRequest {
   @IsOptional()
   @Expose()
   @IsInt()
-  "x-user-id": number;
+  'x-user-id': number;
 }
 
 export interface GetProductReseponse {

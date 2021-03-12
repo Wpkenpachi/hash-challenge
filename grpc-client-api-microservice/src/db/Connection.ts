@@ -1,4 +1,4 @@
-import { createConnection } from "typeorm";
+import { createConnection } from 'typeorm';
 
 createConnection().then(async () => {
   console.log('Database Connected!');

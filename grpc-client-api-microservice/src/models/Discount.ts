@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
 @Entity()
 export class Discount extends BaseEntity {
@@ -12,8 +12,8 @@ export class Discount extends BaseEntity {
   title!: string;
 
   @Column({
-    type: "simple-json",
-    default: "{}"
+    type: 'simple-json',
+    default: '{}'
   })
   metadata!: {
     type?: string

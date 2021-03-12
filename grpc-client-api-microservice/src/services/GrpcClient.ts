@@ -1,6 +1,6 @@
-import { GetDiscountRequest } from "../proto/model_pb"
-import { IndividualProductDiscountClient } from "../proto/model_grpc_pb"
-import grpc from "grpc"
+import { GetDiscountRequest } from '../proto/model_pb'
+import { IndividualProductDiscountClient } from '../proto/model_grpc_pb'
+import grpc from 'grpc'
 
 export const client = new IndividualProductDiscountClient(`${process.env.GRPC_SERVER_URI}:${process.env.GRPC_SERVER_PORT}`, grpc.credentials.createInsecure())
 
