@@ -10,7 +10,7 @@ export async function grpcGetDiscount(productId: number, userId: number | undefi
   request.setUserId(userId)
 
   return new Promise((resolve, reject) => {
-    client.fetchDiscount(request, (err, response) => {
+    client.fetchDiscount(request, (err: any, response: any) => {
       if (err) {
         reject(err)
       } else {
