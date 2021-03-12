@@ -1,13 +1,15 @@
-import sys, os
+from app.utils import percentageGrossValue, getPercentageValue
+import sys
+import os
 import unittest
 sys.path.append("..")
-from app.utils import percentageGrossValue, getPercentageValue
+
 
 class TestUtilsMethods(unittest.TestCase):
     def test_percentageGrossValue(self):
         total_price = 100
-        percent     = float(10)
-        result      = percentageGrossValue(total_price=total_price, percent=percent)
+        percent = float(10)
+        result = percentageGrossValue(total_price=total_price, percent=percent)
         self.assertEqual(result, 10)
 
     def test_percentageGrossValue_invalid_input(self):
@@ -19,7 +21,7 @@ class TestUtilsMethods(unittest.TestCase):
         self.assertRaises(TypeError, percentageGrossValue, total_price)
 
     def test_getPercentageValue(self):
-        total_price     = 120
-        discount_value  = 12
+        total_price = 120
+        discount_value = 12
         value = getPercentageValue(total_price, discount_value)
         self.assertEqual(value, 10)

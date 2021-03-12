@@ -1,6 +1,7 @@
 from peewee import *
 from .model import BaseModel
 
+
 class User(BaseModel):
     id = IntegerField(primary_key=True)
     date_of_birth = DateTimeField()

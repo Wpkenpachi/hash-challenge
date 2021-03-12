@@ -7,5 +7,5 @@ temp/
 **/node_modules
 **/.env
 **/database/migrations/**/*.ts
-**/proto/**.py
-**/proto/**.js
+**/src/proto/**.py
+**/src/proto/**.js
